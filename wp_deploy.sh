@@ -45,14 +45,14 @@ FILES2DEL=( license.txt readme.html wp-config-sample.php )
 ###################
 
 # download wordpress
-wget $DWD_WP
+#wget $DWD_WP
 # extract and modify accordingly
-unzip $WPZIP && rm -rf $WPZIP
+#unzip $WPZIP && rm -rf $WPZIP
 # download plugins
-wget -P tmp/ ${DWD_ARR[@]}
+#wget -P tmp/ ${DWD_ARR[@]}
 # unzip them in plugins directory 
-unzip tmp/\*.zip -d wordpress/wp-content/plugins/
-rm -rf tmp/*
+#unzip tmp/\*.zip -d wordpress/wp-content/plugins/
+#rm -rf tmp/*
 
 ##################
 #
@@ -61,16 +61,17 @@ rm -rf tmp/*
 ###################
 
 # adding files
-cp add2wp/* wordpress/
+#cp add2wp/* wordpress/
 
 # delete files
-rm -rf wordpress/${FILES2DEL[@]}
+#rm -rf wordpress/${FILES2DEL[@]}
+#for FILE2DEL in ${FILES2DEL[@]}; do
+	#	rm -rf wordpress/$FILE2DEL
+#done
 
 #download secret keys + salt
 #wget $WP_SECRETSALT -O salt
+SALT=$(cat salt)
+awk -v key="$SALT" '{sub(/thisisthesecretkeylocation/,key)}1' wordpress/wp-config.php > wordpress/test.txt
 
-#SECRETSALT=$(cat salt)
-#sed -i -e 's/thisisthesecretkeylocation/$SECRETSALT/g' add2wp/wp-config.php
 
-#SECRETSALT=$(wget $WP_SECRETSALT -q -O -)
-#sed -i -e "s/thisisthesecretkeylocation/$SECRETSALT/g" add2wp/wp-config.php
